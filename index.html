@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LottoVisions by Australia</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="https://i.imgur.com/YOUR_IMAGE_HERE.png">
-  <link rel="icon" type="image/png" href="favicon.png">
-
-</head>
 <body>
   <div id="login-screen">
     <h1>LottoVisions by Australia</h1>
@@ -25,19 +14,26 @@
   </div>
 
   <div id="dashboard" style="display: none;">
-    <select id="monthSelector" onchange="changeMonth(this.value)" style="margin-bottom: 1rem;">
-      <option value="june">June 2025</option>
-      <option value="july">July 2025</option>
-      <option value="august">August 2025</option>
-    </select>
-
     <h2>June 2025 Predictions</h2>
     <button onclick="logout()" style="float: right; margin-bottom: 1rem;">Logout</button>
 
-   <div id="dashboard" style="display: none;"></div>
+    <div class="card">
+      <h3>Week 1</h3>
+      <p><strong>Powerball:</strong> 14, 22, 33, 47, 58 | PB: 19 <button onclick="markHit(this)">Mark Hit</button></p>
+      <p><strong>Mega Millions:</strong> 9, 21, 36, 52, 64 | MB: 17 <button onclick="markHit(this)">Mark Hit</button></p>
+      <p><strong>Pick 4 Set 1:</strong> 4 7 3 1 <button onclick="markHit(this)">Mark Hit</button></p>
+      <p><strong>Pick 4 Set 2:</strong> 9 0 6 4 <button onclick="markHit(this)">Mark Hit</button></p>
+    </div>
+
+    <div class="card">
+      <h3>Monthly Predictor</h3>
+      <p>Click to auto-generate suggestions based on past draw frequency.</p>
+      <button onclick="predictNumbers()">Generate Predictions</button>
+      <div id="predictionResults" style="margin-top: 1rem;"></div>
+    </div>
+  </div>
 
   <audio id="hitSound" src="hit-sound.mp3" preload="auto"></audio>
-    
   <script>
     const correctPasscode = "LV2025";
 
@@ -46,11 +42,10 @@
       if (passcode === correctPasscode) {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("dashboard").style.display = "block";
-        changeMonth("june"); // ✅ Automatically load June predictions
       } else {
         alert("Incorrect passcode.");
+      }
     }
-  }
 
     function markHit(button) {
       button.innerText = "Hit ✅";
@@ -64,74 +59,16 @@
       document.getElementById("passcode").value = "";
     }
 
-     function changeMonth(month) {
-      alert(`You selected: ${month}. More months will be added soon!`);
+    function predictNumbers() {
+      const topMain = [1, 14, 31, 30, 3]; // from real draw data frequency
+      const topPB = [1, 2, 3];            // most common Powerballs
+      const randomPB = topPB[Math.floor(Math.random() * topPB.length)];
+      document.getElementById("predictionResults").innerHTML =
+        `<strong>Main Numbers:</strong> ${topMain.join(", ")}<br><strong>Powerball:</strong> ${randomPB}`;
     }
-
-    const dataByMonth = {
-  june: [
-    {
-      week: "Week 1",
-      powerball: "14, 22, 33, 47, 58 | PB: 19",
-      mega: "9, 21, 36, 52, 64 | MB: 17",
-      pick4: ["4 7 3 1", "9 0 6 4"]
-    }
-  ],
-  july: [
-    {
-      week: "Week 1",
-      powerball: "10, 15, 28, 36, 45 | PB: 9",
-      mega: "8, 19, 26, 41, 60 | MB: 5",
-      pick4: ["7 2 3 5", "0 4 8 1"]
-    }
-  ],
-  august: [] // Still disabled for now
-};
-
-
-  function changeMonth(month) {
-  const dashboard = document.getElementById("dashboard");
-  dashboard.innerHTML = `<h2>${month.charAt(0).toUpperCase() + month.slice(1)} 2025 Predictions</h2><button onclick="logout()" style="float: right; margin-bottom: 1rem;">Logout</button>`;
-
-  // ✅ Show real data for June
-  if (month !== "june") {
-    const msg = document.createElement("p");
-    msg.style.padding = "2rem";
-    msg.style.fontStyle = "italic";
-    msg.innerText = "📅 Predictions for this month will be available soon.";
-    dashboard.appendChild(msg);
-    return;
-  }
-
-  // Render predictions for June
-  dataByMonth[month].forEach((entry) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <h3>${entry.week}</h3>
-      <p><strong>Powerball:</strong> ${entry.powerball} <button onclick="markHit(this)">Mark Hit</button></p>
-      <p><strong>Mega Millions:</strong> ${entry.mega} <button onclick="markHit(this)">Mark Hit</button></p>
-      <p><strong>Pick 4 Set 1:</strong> ${entry.pick4[0]} <button onclick="markHit(this)">Mark Hit</button></p>
-      <p><strong>Pick 4 Set 2:</strong> ${entry.pick4[1]} <button onclick="markHit(this)">Mark Hit</button></p>
-    `;
-    dashboard.appendChild(card);
-  });
-
-  // Reattach sound
-  const audio = document.createElement("audio");
-  audio.id = "hitSound";
-  audio.src = "hit-sound.mp3";
-  audio.preload = "auto";
-  dashboard.appendChild(audio);
-}
-
-
-
-
-
   </script>
 </body>
-</html>
+
 
 
 
