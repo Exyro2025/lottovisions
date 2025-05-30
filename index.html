@@ -25,7 +25,15 @@
   </div>
 
   <div id="dashboard" style="display: none;">
+    <select id="monthSelector" onchange="changeMonth(this.value)" style="margin-bottom: 1rem;">
+      <option value="june">June 2025</option>
+      <option value="july">July 2025</option>
+      <option value="august">August 2025</option>
+    </select>
+
     <h2>June 2025 Predictions</h2>
+    <button onclick="logout()" style="float: right; margin-bottom: 1rem;">Logout</button>
+
     <div class="card">
       <h3>Week 1</h3>
       <p><strong>Powerball:</strong> 14, 22, 33, 47, 58 | PB: 19 <button onclick="markHit(this)">Mark Hit</button></p>
@@ -54,6 +62,17 @@
       button.disabled = true;
       document.getElementById("hitSound").play();
     }
+
+    function logout() {
+      document.getElementById("dashboard").style.display = "none";
+      document.getElementById("login-screen").style.display = "block";
+      document.getElementById("passcode").value = "";
+    }
+
+     function changeMonth(month) {
+      alert(`You selected: ${month}. More months will be added soon!`);
+    }
+
   </script>
 </body>
 </html>
