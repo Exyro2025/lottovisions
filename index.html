@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LottoVisions by Australia</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="favicon.png" />
+</head>
 <body>
   <div id="login-screen">
     <h1>LottoVisions by Australia</h1>
@@ -25,6 +34,7 @@
       <p><strong>Pick 4 Set 2:</strong> 9 0 6 4 <button onclick="markHit(this)">Mark Hit</button></p>
     </div>
 
+    <!-- Monthly Predictor -->
     <div class="card">
       <h3>Monthly Predictor</h3>
       <p>Click to auto-generate suggestions based on past draw frequency.</p>
@@ -34,6 +44,7 @@
   </div>
 
   <audio id="hitSound" src="hit-sound.mp3" preload="auto"></audio>
+
   <script>
     const correctPasscode = "LV2025";
 
@@ -47,27 +58,27 @@
       }
     }
 
-    function markHit(button) {
-      button.innerText = "Hit ✅";
-      button.disabled = true;
-      document.getElementById("hitSound").play();
-    }
-
     function logout() {
       document.getElementById("dashboard").style.display = "none";
       document.getElementById("login-screen").style.display = "block";
       document.getElementById("passcode").value = "";
     }
 
+    function markHit(button) {
+      button.innerText = "Hit ✅";
+      button.disabled = true;
+      document.getElementById("hitSound").play();
+    }
+
     function predictNumbers() {
-      const topMain = [1, 14, 31, 30, 3]; // from real draw data frequency
-      const topPB = [1, 2, 3];            // most common Powerballs
-      const randomPB = topPB[Math.floor(Math.random() * topPB.length)];
+      const topMain = [1, 14, 31, 30, 3];
+      const topPB = [1, 2, 3];
       document.getElementById("predictionResults").innerHTML =
-        `<strong>Main Numbers:</strong> ${topMain.join(", ")}<br><strong>Powerball:</strong> ${randomPB}`;
+        `<strong>Main Numbers:</strong> ${topMain.join(", ")}<br><strong>Powerball:</strong> ${topPB[Math.floor(Math.random() * topPB.length)]}`;
     }
   </script>
 </body>
+</html>
 
 
 
