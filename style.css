@@ -72,7 +72,7 @@ button:disabled {
   background: gray;
   cursor: not-allowed;
 }
-"""
+
 
 # Save the updated style.css with new background
 dark_css_path = "/mnt/data/style-dark.css"
