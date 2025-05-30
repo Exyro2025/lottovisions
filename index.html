@@ -54,7 +54,11 @@
       <button onclick="predictNumbers()">Generate Predictions</button>
       <div id="predictionResults" style="margin-top: 1rem;"></div>
     </div>
-  </div>
+    <div id="insightsCard" class="card" style="margin-top: 2rem;">
+      <h3>🔎 Insights: Hot & Cold Numbers</h3>
+      <p><strong>Hot Numbers:</strong> <span id="hotNumbers">Loading...</span></p>
+      <p><strong>Cold Numbers:</strong> <span id="coldNumbers">Loading...</span></p>
+    </div>
 
   <audio id="hitSound" src="hit-sound.mp3" preload="auto"></audio>
 
@@ -150,4 +154,25 @@
     document.getElementById("predictionResults").innerHTML =
       `<strong>Main Numbers:</strong> ${topMain.join(", ")}<br><strong>Powerball:</strong> ${topPB[Math.floor(Math.random() * topPB.length)]}`;
   }
+
+  function showInsights() {
+    const allMain = [];
+    const mainCounter = {};
+
+    Object.values(dataByMonth).flat().forEach((week) => {
+      const main = week.powerball.split("|")[0].split(",").map(n => parseInt(n.trim()));
+      main.forEach(n => {
+        mainCounter[n] = (mainCounter[n] || 0) + 1;
+        allMain.push(n);
+      });
+    });
+
+    const sorted = Object.entries(mainCounter).sort((a, b) => b[1] - a[1]);
+    const hot = sorted.slice(0, 5).map(e => e[0]);
+    const cold = sorted.slice(-5).map(e => e[0]);
+
+    document.getElementById("hotNumbers").innerText = hot.join(", ");
+    document.getElementById("coldNumbers").innerText = cold.join(", ");
+  }
+
 </script>
