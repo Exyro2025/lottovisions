@@ -1,7 +1,3 @@
-# Regenerate style.css content with black/gold theme and background image support
-
-style_css = """
-dark_css = """
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: url('https://images.unsplash.com/photo-1531988042231-d39a9cc12a9a?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
@@ -73,10 +69,3 @@ button:disabled {
   cursor: not-allowed;
 }
 
-
-# Save the updated style.css with new background
-dark_css_path = "/mnt/data/style-dark.css"
-with open(dark_css_path, "w") as f:
-    f.write(dark_css)
-
-dark_css_path
