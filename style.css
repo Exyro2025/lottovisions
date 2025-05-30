@@ -1,14 +1,15 @@
 # Regenerate style.css content with black/gold theme and background image support
 
 style_css = """
+dark_css = """
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: url('https://images.unsplash.com/photo-1520975926214-8e0f74b6f1b5?auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+  background: url('https://images.unsplash.com/photo-1531988042231-d39a9cc12a9a?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
   background-size: cover;
   color: #f9f9f9;
   padding: 2rem;
   text-align: center;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(4px);
 }
 
 h1 {
@@ -50,7 +51,7 @@ button:hover {
 }
 
 .card {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
   padding: 1.5rem;
   margin: 2rem auto;
   border-radius: 10px;
@@ -73,9 +74,9 @@ button:disabled {
 }
 """
 
-# Save the style.css for user download
-css_path = "/mnt/data/style.css"
-with open(css_path, "w") as f:
-    f.write(style_css)
+# Save the updated style.css with new background
+dark_css_path = "/mnt/data/style-dark.css"
+with open(dark_css_path, "w") as f:
+    f.write(dark_css)
 
-css_path
+dark_css_path
