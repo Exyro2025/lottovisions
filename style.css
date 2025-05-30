@@ -69,3 +69,32 @@ button:disabled {
   cursor: not-allowed;
 }
 
+/* Center and style the login screen on larger displays */
+#login-screen {
+  max-width: 500px;
+  margin: 10vh auto;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2rem;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Subtle container for unlocked dashboard */
+#dashboard {
+  background: rgba(0, 0, 0, 0.45);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-top: 2rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Optional: enhance mobile button spacing */
+button {
+  margin-top: 0.5rem;
+  min-width: 100px;
+}
+
+
