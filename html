@@ -1,0 +1,116 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+const predictions = [
+  {
+    week: "Week 1",
+    powerball: { numbers: [14, 22, 33, 47, 58], pb: 19 },
+    mega: { numbers: [9, 21, 36, 52, 64], mb: 17 },
+    pick4: [[4, 7, 3, 1], [9, 0, 6, 4]],
+  },
+  {
+    week: "Week 2",
+    powerball: { numbers: [11, 24, 38, 43, 61], pb: 13 },
+    mega: { numbers: [8, 19, 27, 41, 59], mb: 5 },
+    pick4: [[2, 8, 5, 7], [0, 1, 9, 3]],
+  },
+  {
+    week: "Week 3",
+    powerball: { numbers: [10, 18, 26, 42, 60], pb: 7 },
+    mega: { numbers: [12, 25, 34, 46, 66], mb: 9 },
+    pick4: [[6, 6, 2, 0], [3, 4, 4, 9]],
+  },
+  {
+    week: "Week 4",
+    powerball: { numbers: [6, 21, 37, 49, 65], pb: 3 },
+    mega: { numbers: [15, 22, 33, 45, 67], mb: 2 },
+    pick4: [[7, 1, 8, 5], [5, 2, 3, 2]],
+  },
+];
+
+export default function LotteryDashboard() {
+  const [hits, setHits] = useState({});
+  const [passcode, setPasscode] = useState("");
+  const [unlocked, setUnlocked] = useState(false);
+
+  const correctPasscode = "LV2025";
+
+  const handleUnlock = () => {
+    if (passcode === correctPasscode) setUnlocked(true);
+    else alert("Incorrect passcode.");
+  };
+
+  const toggleHit = (key) => {
+    setHits((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  if (!unlocked) {
+    return (
+      <div className="p-8 max-w-md mx-auto text-center">
+        <h1 className="text-2xl font-bold mb-4">Welcome to LottoVision</h1>
+        <input
+          type="password"
+          placeholder="Enter Passcode"
+          value={passcode}
+          onChange={(e) => setPasscode(e.target.value)}
+          className="border p-2 w-full mb-4 rounded"
+        />
+        <Button onClick={handleUnlock}>Unlock</Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-4 grid gap-4">
+      {predictions.map((weekData, i) => (
+        <Card key={i}>
+          <CardContent className="space-y-2">
+            <h2 className="text-xl font-bold">{weekData.week}</h2>
+
+            <div>
+              <p className="font-semibold">Powerball:</p>
+              <p>
+                {weekData.powerball.numbers.join(", ")} | PB: {weekData.powerball.pb}
+              </p>
+              <Button
+                onClick={() => toggleHit(`${weekData.week}-pb`)}
+                variant={hits[`${weekData.week}-pb`] ? "default" : "outline"}
+              >
+                {hits[`${weekData.week}-pb`] ? "Hit ✅" : "Mark Hit"}
+              </Button>
+            </div>
+
+            <div>
+              <p className="font-semibold">Mega Millions:</p>
+              <p>
+                {weekData.mega.numbers.join(", ")} | MB: {weekData.mega.mb}
+              </p>
+              <Button
+                onClick={() => toggleHit(`${weekData.week}-mm`)}
+                variant={hits[`${weekData.week}-mm`] ? "default" : "outline"}
+              >
+                {hits[`${weekData.week}-mm`] ? "Hit ✅" : "Mark Hit"}
+              </Button>
+            </div>
+
+            <div>
+              <p className="font-semibold">Pick 4:</p>
+              {weekData.pick4.map((set, idx) => (
+                <div key={idx} className="flex items-center gap-2">
+                  <p>{set.join(" ")}</p>
+                  <Button
+                    onClick={() => toggleHit(`${weekData.week}-p4-${idx}`)}
+                    variant={hits[`${weekData.week}-p4-${idx}`] ? "default" : "outline"}
+                  >
+                    {hits[`${weekData.week}-p4-${idx}`] ? "Hit ✅" : "Mark Hit"}
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
