@@ -80,29 +80,43 @@
   };
 
   function changeMonth(month) {
-    const dashboard = document.getElementById("dashboard");
-    dashboard.innerHTML = `<h2>${month.charAt(0).toUpperCase() + month.slice(1)} 2025 Predictions</h2><button onclick="logout()" style="float: right; margin-bottom: 1rem;">Logout</button>`;
+  const dashboard = document.getElementById("dashboard");
+  dashboard.innerHTML = `<h2>${month.charAt(0).toUpperCase() + month.slice(1)} 2025 Predictions</h2><button onclick="logout()" style="float: right; margin-bottom: 1rem;">Logout</button>`;
 
-    dataByMonth[month].forEach((entry, index) => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `
-        <h3>${entry.week}</h3>
-        <p><strong>Powerball:</strong> ${entry.powerball} <button onclick="markHit(this)">Mark Hit</button></p>
-        <p><strong>Mega Millions:</strong> ${entry.mega} <button onclick="markHit(this)">Mark Hit</button></p>
-        <p><strong>Pick 4 Set 1:</strong> ${entry.pick4[0]} <button onclick="markHit(this)">Mark Hit</button></p>
-        <p><strong>Pick 4 Set 2:</strong> ${entry.pick4[1]} <button onclick="markHit(this)">Mark Hit</button></p>
-       `;
-       dashboard.appendChild(card);
-   });
+  // ✅ Show real data for June
+  if (month !== "june") {
+    const msg = document.createElement("p");
+    msg.style.padding = "2rem";
+    msg.style.fontStyle = "italic";
+    msg.innerText = "📅 Predictions for this month will be available soon.";
+    dashboard.appendChild(msg);
+    return;
+  }
 
-  // Re-attach the audio if removed
+  // Render predictions for June
+  dataByMonth[month].forEach((entry) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <h3>${entry.week}</h3>
+      <p><strong>Powerball:</strong> ${entry.powerball} <button onclick="markHit(this)">Mark Hit</button></p>
+      <p><strong>Mega Millions:</strong> ${entry.mega} <button onclick="markHit(this)">Mark Hit</button></p>
+      <p><strong>Pick 4 Set 1:</strong> ${entry.pick4[0]} <button onclick="markHit(this)">Mark Hit</button></p>
+      <p><strong>Pick 4 Set 2:</strong> ${entry.pick4[1]} <button onclick="markHit(this)">Mark Hit</button></p>
+    `;
+    dashboard.appendChild(card);
+  });
+
+  // Reattach sound
   const audio = document.createElement("audio");
   audio.id = "hitSound";
   audio.src = "hit-sound.mp3";
   audio.preload = "auto";
   dashboard.appendChild(audio);
 }
+
+
+
 
 
   </script>
