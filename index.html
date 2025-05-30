@@ -46,10 +46,11 @@
       if (passcode === correctPasscode) {
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("dashboard").style.display = "block";
+        changeMonth("june"); // ✅ Automatically load June predictions
       } else {
         alert("Incorrect passcode.");
-      }
     }
+  }
 
     function markHit(button) {
       button.innerText = "Hit ✅";
