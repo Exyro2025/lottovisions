@@ -34,16 +34,10 @@
     <h2>June 2025 Predictions</h2>
     <button onclick="logout()" style="float: right; margin-bottom: 1rem;">Logout</button>
 
-    <div class="card">
-      <h3>Week 1</h3>
-      <p><strong>Powerball:</strong> 14, 22, 33, 47, 58 | PB: 19 <button onclick="markHit(this)">Mark Hit</button></p>
-      <p><strong>Mega Millions:</strong> 9, 21, 36, 52, 64 | MB: 17 <button onclick="markHit(this)">Mark Hit</button></p>
-      <p><strong>Pick 4 Set 1:</strong> 4 7 3 1 <button onclick="markHit(this)">Mark Hit</button></p>
-      <p><strong>Pick 4 Set 2:</strong> 9 0 6 4 <button onclick="markHit(this)">Mark Hit</button></p>
-    </div>
-  </div>
+   <div id="dashboard" style="display: none;"></div>
 
   <audio id="hitSound" src="hit-sound.mp3" preload="auto"></audio>
+    
   <script>
     const correctPasscode = "LV2025";
 
@@ -72,6 +66,44 @@
      function changeMonth(month) {
       alert(`You selected: ${month}. More months will be added soon!`);
     }
+
+    const dataByMonth = {
+      june: [
+        { week: "Week 1", powerball: "14, 22, 33, 47, 58 | PB: 19", mega: "9, 21, 36, 52, 64 | MB: 17", pick4: ["4 7 3 1", "9 0 6 4"] }
+    ],
+      july: [
+        { week: "Week 1", powerball: "10, 15, 28, 36, 45 | PB: 9", mega: "8, 19, 26, 41, 60 | MB: 5", pick4: ["7 2 3 5", "0 4 8 1"] }
+    ],
+      august: [
+        { week: "Week 1", powerball: "11, 19, 27, 33, 49 | PB: 6", mega: "12, 25, 34, 46, 66 | MB: 13", pick4: ["3 5 7 0", "2 9 1 6"] }
+    ]
+  };
+
+  function changeMonth(month) {
+    const dashboard = document.getElementById("dashboard");
+    dashboard.innerHTML = `<h2>${month.charAt(0).toUpperCase() + month.slice(1)} 2025 Predictions</h2><button onclick="logout()" style="float: right; margin-bottom: 1rem;">Logout</button>`;
+
+    dataByMonth[month].forEach((entry, index) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h3>${entry.week}</h3>
+        <p><strong>Powerball:</strong> ${entry.powerball} <button onclick="markHit(this)">Mark Hit</button></p>
+        <p><strong>Mega Millions:</strong> ${entry.mega} <button onclick="markHit(this)">Mark Hit</button></p>
+        <p><strong>Pick 4 Set 1:</strong> ${entry.pick4[0]} <button onclick="markHit(this)">Mark Hit</button></p>
+        <p><strong>Pick 4 Set 2:</strong> ${entry.pick4[1]} <button onclick="markHit(this)">Mark Hit</button></p>
+       `;
+       dashboard.appendChild(card);
+   });
+
+  // Re-attach the audio if removed
+  const audio = document.createElement("audio");
+  audio.id = "hitSound";
+  audio.src = "hit-sound.mp3";
+  audio.preload = "auto";
+  dashboard.appendChild(audio);
+}
+
 
   </script>
 </body>
