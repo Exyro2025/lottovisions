@@ -22,9 +22,22 @@
     <button onclick="checkPasscode()">Unlock</button>
   </div>
 
-  <div id="dashboard" style="display: none;">
-    <h2>June 2025 Predictions</h2>
-    <button onclick="logout()" style="float: right; margin-bottom: 1rem;">Logout</button>
+ <div id="dashboard" style="display: none;">
+  <button onclick="logout()" style="float: right; margin-bottom: 1rem;">Logout</button>
+  
+  <div style="margin-bottom: 1.5rem;">
+    <label for="monthSelect" style="margin-right: 0.5rem;">📅 Select Month:</label>
+    <select id="monthSelect" onchange="renderMonth(this.value)">
+      <option value="june">June</option>
+      <option value="july">July</option>
+      <option value="august">August</option>
+    </select>
+    <button onclick="predictNumbers()" style="margin-left: 1rem;">🎯 Monthly Predictor</button>
+  </div>
+
+  <div id="monthDisplay"></div>
+  <div id="predictionResults" style="margin-top: 2rem; font-weight: bold;"></div>
+</div>
 
     <div class="card">
       <h3>Week 1</h3>
@@ -46,40 +59,95 @@
   <audio id="hitSound" src="hit-sound.mp3" preload="auto"></audio>
 
   <script>
-    const correctPasscode = "LV2025";
+  const correctPasscode = "LV2025";
 
-    function checkPasscode() {
-      const passcode = document.getElementById("passcode").value;
-      if (passcode === correctPasscode) {
-        document.getElementById("login-screen").style.display = "none";
-        document.getElementById("dashboard").style.display = "block";
-      } else {
-        alert("Incorrect passcode.");
+  const dataByMonth = {
+    june: [
+      {
+        week: "Week 1",
+        powerball: "14, 22, 33, 47, 58 | PB: 19",
+        mega: "9, 21, 36, 52, 64 | MB: 17",
+        pick4: ["4 7 3 1", "9 0 6 4"]
+      },
+      {
+        week: "Week 2",
+        powerball: "36, 14, 28, 33, 22 | PB: 19",
+        mega: "19, 36, 8, 26, 41 | MB: 5",
+        pick4: ["2 0 9 7", "8 0 3 0"]
       }
+    ],
+    july: [
+      {
+        week: "Week 1",
+        powerball: "10, 15, 28, 36, 45 | PB: 9",
+        mega: "8, 19, 26, 41, 60 | MB: 5",
+        pick4: ["7 2 3 5", "0 4 8 1"]
+      }
+    ],
+    august: [
+      {
+        week: "Week 1",
+        powerball: "11, 19, 27, 33, 49 | PB: 6",
+        mega: "12, 25, 34, 46, 66 | MB: 13",
+        pick4: ["3 5 7 0", "2 9 1 6"]
+      }
+    ]
+  };
+
+  function checkPasscode() {
+    const passcode = document.getElementById("passcode").value;
+    if (passcode === correctPasscode) {
+      document.getElementById("login-screen").style.display = "none";
+      document.getElementById("dashboard").style.display = "block";
+      renderMonth('june');
+    } else {
+      alert("Incorrect passcode.");
+    }
+  }
+
+  function logout() {
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("login-screen").style.display = "block";
+    document.getElementById("passcode").value = "";
+  }
+
+  function markHit(button) {
+    button.innerText = "Hit ✅";
+    button.disabled = true;
+    document.getElementById("hitSound").play();
+  }
+
+  function renderMonth(month) {
+    const data = dataByMonth[month.toLowerCase()];
+    const display = document.getElementById("monthDisplay");
+    display.innerHTML = `<h2>${capitalize(month)} 2025 Predictions</h2>`;
+
+    if (!data) {
+      display.innerHTML += "<p>No data available.</p>";
+      return;
     }
 
-    function logout() {
-      document.getElementById("dashboard").style.display = "none";
-      document.getElementById("login-screen").style.display = "block";
-      document.getElementById("passcode").value = "";
-    }
+    data.forEach((week) => {
+      display.innerHTML += `
+        <div class="card">
+          <h3>${week.week}</h3>
+          <p><strong>Powerball:</strong> ${week.powerball} <button onclick="markHit(this)">Mark Hit</button></p>
+          <p><strong>Mega Millions:</strong> ${week.mega} <button onclick="markHit(this)">Mark Hit</button></p>
+          <p><strong>Pick 4 Set 1:</strong> ${week.pick4[0]} <button onclick="markHit(this)">Mark Hit</button></p>
+          <p><strong>Pick 4 Set 2:</strong> ${week.pick4[1]} <button onclick="markHit(this)">Mark Hit</button></p>
+        </div>
+      `;
+    });
+  }
 
-    function markHit(button) {
-      button.innerText = "Hit ✅";
-      button.disabled = true;
-      document.getElementById("hitSound").play();
-    }
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 
-    function predictNumbers() {
-      const topMain = [1, 14, 31, 30, 3];
-      const topPB = [1, 2, 3];
-      document.getElementById("predictionResults").innerHTML =
-        `<strong>Main Numbers:</strong> ${topMain.join(", ")}<br><strong>Powerball:</strong> ${topPB[Math.floor(Math.random() * topPB.length)]}`;
-    }
-  </script>
-</body>
-</html>
-
-
-
-
+  function predictNumbers() {
+    const topMain = [1, 14, 31, 30, 3];
+    const topPB = [1, 2, 3];
+    document.getElementById("predictionResults").innerHTML =
+      `<strong>Main Numbers:</strong> ${topMain.join(", ")}<br><strong>Powerball:</strong> ${topPB[Math.floor(Math.random() * topPB.length)]}`;
+  }
+</script>
